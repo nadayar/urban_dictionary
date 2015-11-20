@@ -2,7 +2,7 @@
 
 namespace Nadayar;
 
-class DictionaryDataProvider 
+class DictionaryDataManager
 {
 
     private $slangs =  [
@@ -21,24 +21,28 @@ class DictionaryDataProvider
         return $this->slangs;
     } 
     
-    public function getSlang($slangId) 
+    public function getOneSlang($slangId) 
     {
         if(array_key_exists($slangId, $this->slangs))
         {
             $slang = $this->slangs[$slangId];
+
             return $slang;
         } else {
             throw new SlangDoesNotExist("Cant Find Slang");          
         }
     } 
 
-    public function createSlang($slangId, $slangDescription, $slangExample) {
+    public function createSlang($slangId, $slangDescription, $slangExample) 
+    {
         $newSlangBody = ["description" => $slangDescription, "sample-sentence" => $slangExample];
         $this->slangs[$slangId] = $newSlangBody;
+
         return $this->slangs[$slangId];
     }    
 
-    public function updateSlang($slangId, $body) {
+    public function updateSlang($slangId, $body) 
+    {
         if(array_key_exists("description", $body))
         {
             $this->slangs[$slangId]["description"] = $body["description"];
@@ -51,7 +55,8 @@ class DictionaryDataProvider
         return $this->slangs[$slangId];
     } 
 
-    public function deleteSlang($slangId) {
+    public function deleteSlang($slangId) 
+    {
         unset($this->slangs[$slangId]);
     } 
 }

@@ -4,43 +4,45 @@ namespace Nadayar;
 
 Class UrbanDictionary 
 {
-    private $dataProvider;
+    private $dataManager;
 
-    public function __construct(DictionaryDataProvider $dataProvider, WordRankings $rankingUtils) 
+    public function __construct(DictionaryDataManager $dataManager, WordRankings $rankingUtils) 
     {
-        $this->dataProvider = $dataProvider;
+        $this->dataManager = $dataManager;
         $this->rankingUtils = $rankingUtils;
     }
 
     public function getAllSlangs()
     {
-        return $this->dataProvider->getSlangs();
+        return $this->dataManager->getSlangs();
     }
 
     public function getSlangById($slangId)
     {
-        return $this->dataProvider->getSlang($slangId);
+        return $this->dataManager->getOneSlang($slangId);
     } 
 
     public function createSlang($slangId, $slangDescription, $slangExample)
     {
-        return $this->dataProvider->createSlang($slangId, $slangDescription, $slangExample);
+        return $this->dataManager->createSlang($slangId, $slangDescription, $slangExample);
     }
 
     public function updateSlang($slangId, $body)
     {
-        return $this->dataProvider->updateSlang($slangId, $body);
+        return $this->dataManager->updateSlang($slangId, $body);
     }
 
     public function deleteSlang($slangId)
     {
-        return $this->dataProvider->deleteSlang($slangId);
+        return $this->dataManager->deleteSlang($slangId);
     }
 
     public function getRankings($slangId)
     {
         $slang = $this->getSlangById($slangId);
-        $rankings = $this->rankingUtils->getRankings($slang['sample-sentence']);
+        $this->rankingUtils->setRankings($slang['sample-sentence']);
+        $rankings = $this->rankingUtils->getRankings();
+
         return $rankings;
     }
 }
